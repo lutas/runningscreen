@@ -55,7 +55,7 @@ module.exports = {
                
                 // flatten the activity ID's as they come back as array of arrays
                 var flattened = flatten(activities);
-                console.log("Month: " + month +  " - retrieved " + flattened.length + "/" + activities.length);
+                console.log("Month: " + month + "/" + year + " - retrieved " + flattened.length + " activities");
         
                 var activitiesReceived = [];
                 var allDetails = [];

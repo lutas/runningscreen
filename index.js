@@ -2,20 +2,43 @@
 'use strict';
 
 var config = require('./config.js');
-var stats = require('./running.js');
+var runtasticManager = require('./running.js');
+var display = require('./display.js');
 
-function displayError(err) {
-    console.log("Error: " + err.message);
+var YearStats = require("./yearstats.js");
 
-    // flash LED's?
-}
+const prevYearValue = 2016; // deduce at some point
+const thisYearValue = 2017;
 
-stats.login(config).then(function() {
+var prevYear = new YearStats(prevYearValue);
+var thisYear = new YearStats(thisYearValue);
 
-    stats.getMonthStats(1, 2016).then(function(details) {
+runtasticManager.login(config).then(function() {
 
-        console.log(details);
+    var allMonths = [];
+    for (let monthIndex = 1; monthIndex <= 1; ++monthIndex) {
 
-    }, displayError);
+        // previous year details - could cache these somewhere
+        let monthPromise = runtasticManager.getMonthStats(monthIndex, prevYearValue);        
+        monthPromise.then(function(data) {
+            prevYear.addStats(monthIndex, data);
+        }, display.error);
 
-}, displayError);
+        allMonths.push(monthPromise);
+
+        // current year
+        let thisYearMonthPromise = runtasticManager.getMonthStats(monthIndex, thisYearValue);
+        thisYearMonthPromise.then(function(data) {
+            thisYear.addStats(monthIndex, data);
+        }, display.error);
+
+        allMonths.push(thisYearMonthPromise);
+    }
+
+    Promise.all(allMonths).then(function() {
+
+        display.output(1, prevYear, thisYear);
+
+    }, display.error);
+
+}, display.error);
