@@ -1,6 +1,8 @@
 
 'use strict';
 
+console.log("app start");
+
 var config = require('./config.js');
 var runtasticManager = require('./running.js');
 var display = require('./display.js');
@@ -13,15 +15,19 @@ const thisYearValue = 2017;
 var prevYear = new YearStats(prevYearValue);
 var thisYear = new YearStats(thisYearValue);
 
-console.log("Clearing display");
-display.clear();
-display.init();
-console.log("Initialised display");
+setTimeout(function() {
+    console.log("Clearing display");
+    display.clear();
+    display.init();
+    console.log("Initialised display");
 
+}, 2000);
+
+console.log("Attempting login");
 runtasticManager.login(config).then(function() {
 
     var allMonths = [];
-    for (let monthIndex = 1; monthIndex <= 1; ++monthIndex) {
+    for (let monthIndex = 1; monthIndex <= 12; ++monthIndex) {
 
         // previous year details - could cache these somewhere
         let monthPromise = runtasticManager.getMonthStats(monthIndex, prevYearValue);        
@@ -47,3 +53,9 @@ runtasticManager.login(config).then(function() {
     }, display.error);
 
 }, display.error);
+
+setTimeout(function() {
+
+    console.log("Delaying application end");
+
+}, 30000);
