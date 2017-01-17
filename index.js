@@ -13,6 +13,11 @@ const thisYearValue = 2017;
 var prevYear = new YearStats(prevYearValue);
 var thisYear = new YearStats(thisYearValue);
 
+console.log("Clearing display");
+display.clear();
+display.init();
+console.log("Initialised display");
+
 runtasticManager.login(config).then(function() {
 
     var allMonths = [];

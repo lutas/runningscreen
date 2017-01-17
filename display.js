@@ -1,5 +1,12 @@
 'use strict';
 var moment = require('moment');
+var LedControl = require('rpi-led-control');
+
+const datapin = 13;
+const clockpin = 23;
+const cspin = 21;
+
+var lc = new LedControl(datapin, clockpin, cspin, 4);
 
 function metresToMiles(metres) {
     return metres / (0.6 * 1000);
@@ -22,6 +29,18 @@ function daysBetween( date1, date2 ) {
 }
 
 module.exports = {
+
+    init: function() {
+        lc.setLed(0, 5, 4, 1);        
+        lc.setLed(0, 1, 4, 1); 
+
+        lc.setLed(1, 1, 4, 1); 
+        lc.setChar(2,4,'L'); 
+    },
+
+    clear: function() {
+        lc.clearDisplay(0);
+    },
 
     output: function(monthIndex, prevYear, thisYear) {
 
