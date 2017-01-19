@@ -2,9 +2,15 @@
 var moment = require('moment');
 var LedControl = require('rpi-led-control');
 
-var datapin = process.env.datapin;
-var clockpin = process.env.clockpin;
-var cspin = process.env.cspin;
+var datapin = 13;
+var clockpin = 23;
+var cspin = 21;
+
+if (process.argv.length >= 3) {
+    datapin = parseInt(process.argv[0]);
+    clockpin = parseInt(process.argv[1]);
+    cspin = parseInt(process.argv[2]);
+}
 
 console.log("connecting using datapin=" + datapin + ", clockpin=" + clockpin + ", cspin=", cspin);
 var lc = new LedControl(datapin, clockpin, cspin, 4);
