@@ -6,10 +6,12 @@ var datapin = 13;
 var clockpin = 23;
 var cspin = 21;
 
-if (process.argv.length >= 3) {
-    datapin = parseInt(process.argv[0]);
-    clockpin = parseInt(process.argv[1]);
-    cspin = parseInt(process.argv[2]);
+if (process.argv.length >= 5) {
+    console.log("arg[2] = " + process.argv[2]);
+
+    datapin = parseInt(process.argv[2]);
+    clockpin = parseInt(process.argv[3]);
+    cspin = parseInt(process.argv[4]);
 }
 
 console.log("connecting using datapin=" + datapin + ", clockpin=" + clockpin + ", cspin=", cspin);
