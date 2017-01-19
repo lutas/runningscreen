@@ -44,11 +44,10 @@ module.exports = {
         lc.setLed(0, 1, 4, 1); 
 
         lc.setLed(1, 1, 4, 1); 
-        lc.setChar(2,4,'L'); 
     },
 
     clear: function() {
-        lc.clearDisplay(0);
+        //lc.clearDisplay(0);
     },
 
     output: function(monthIndex, prevYear, thisYear) {
