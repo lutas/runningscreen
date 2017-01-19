@@ -3,7 +3,7 @@ var moment = require('moment');
 var LedControl = require('rpi-led-control');
 
 var datapin = 13;
-var clockpin = 23;
+var clockpin = 26;
 var cspin = 21;
 
 if (process.argv.length >= 5) {
@@ -44,6 +44,7 @@ module.exports = {
         lc.setLed(0, 1, 4, 1); 
 
         lc.setLed(1, 1, 4, 1); 
+    
     },
 
     clear: function() {

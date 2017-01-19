@@ -13,19 +13,17 @@ var config = {
 
 console.log("Using account: " + config.emailAddress);
 
-setTimeout(function() {
     console.log("Clearing display");
-    console.log("Initialised display");
-
-}, 2000);
-
-setInterval(function() {
-    console.log("In interval");
-}, 60000);
-
-
     display.clear();
     display.init();
+    console.log("Initialised display");
+
+    
+setInterval(function() {
+    display.init();
+    console.log("init display");
+}, 500);
+
 
 
 // var runtasticManager = require('./running.js');
