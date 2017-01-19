@@ -32,8 +32,8 @@ setInterval(function() {
 
 // var YearStats = require("./yearstats.js");
 
-// const prevYearValue = 2016; // deduce at some point
-// const thisYearValue = 2017;
+// var prevYearValue = 2016; // deduce at some point
+// var thisYearValue = 2017;
 
 // var prevYear = new YearStats(prevYearValue);
 // var thisYear = new YearStats(thisYearValue);
@@ -41,10 +41,10 @@ setInterval(function() {
 // runtasticManager.login(config).then(function() {
 
 //     var allMonths = [];
-//     for (let monthIndex = 1; monthIndex <= 12; ++monthIndex) {
+//     for (var monthIndex = 1; monthIndex <= 12; ++monthIndex) {
 
 //         // previous year details - could cache these somewhere
-//         let monthPromise = runtasticManager.getMonthStats(monthIndex, prevYearValue);        
+//         var monthPromise = runtasticManager.getMonthStats(monthIndex, prevYearValue);        
 //         monthPromise.then(function(data) {
 //             prevYear.addStats(monthIndex, data);
 //         }, display.error);
@@ -52,7 +52,7 @@ setInterval(function() {
 //         allMonths.push(monthPromise);
 
 //         // current year
-//         let thisYearMonthPromise = runtasticManager.getMonthStats(monthIndex, thisYearValue);
+//         var thisYearMonthPromise = runtasticManager.getMonthStats(monthIndex, thisYearValue);
 //         thisYearMonthPromise.then(function(data) {
 //             thisYear.addStats(monthIndex, data);
 //         }, display.error);

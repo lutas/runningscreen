@@ -26,7 +26,7 @@ var YearStats = function(year) {
                 return 0;
             }
 
-            const totalDistance = month.reduce(function(prev, val) {
+            var totalDistance = month.reduce(function(prev, val) {
                 return prev + val.distance;
             }, 0);
 
@@ -36,7 +36,7 @@ var YearStats = function(year) {
         getLastRun: function() {
 
             // discount any months without data
-            for (let monthIndex = 11; monthIndex >= 0; --monthIndex) {
+            for (var monthIndex = 11; monthIndex >= 0; --monthIndex) {
                 
                 var month = this.months[monthIndex];
                 if (month !== null && month.length > 0) {
@@ -44,7 +44,7 @@ var YearStats = function(year) {
                     // find the latest one
                     var lastRun = null;
                     var latest = 0;
-                    for (let activity = 0; activity < month.length; ++activity) {
+                    for (var activity = 0; activity < month.length; ++activity) {
 
                         var runTime = new Date(month[activity].end_time).getTime();                     
 

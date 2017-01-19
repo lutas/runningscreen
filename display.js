@@ -2,9 +2,9 @@
 var moment = require('moment');
 var LedControl = require('rpi-led-control');
 
-const datapin = 13;
-const clockpin = 23;
-const cspin = 21;
+var datapin = 13;
+var clockpin = 23;
+var cspin = 21;
 
 var lc = new LedControl(datapin, clockpin, cspin, 4);
 
@@ -15,7 +15,7 @@ function metresToMiles(metres) {
 // http://www.htmlgoodies.com/html5/javascript/calculating-the-difference-between-two-dates-in-javascript.html#fbid=l8FTWLCXNET
 function daysBetween( date1, date2 ) {
   //Get 1 day in milliseconds
-  const one_day=1000*60*60*24;
+  var one_day=1000*60*60*24;
 
   // Convert both dates to milliseconds
   var date1_ms = date1.getTime();
@@ -47,8 +47,8 @@ module.exports = {
         console.log("Calculating output");
 
         // calculate distance this month
-        const prevDistance = prevYear.getMonthDistance(monthIndex);
-        const thisDistance = thisYear.getMonthDistance(monthIndex);
+        var prevDistance = prevYear.getMonthDistance(monthIndex);
+        var thisDistance = thisYear.getMonthDistance(monthIndex);
 
         var diff = metresToMiles(prevDistance - thisDistance);   
 
