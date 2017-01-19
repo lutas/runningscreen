@@ -2,10 +2,11 @@
 var moment = require('moment');
 var LedControl = require('rpi-led-control');
 
-var datapin = 13;
-var clockpin = 23;
-var cspin = 21;
+var datapin = process.env.datapin;
+var clockpin = process.env.clockpin;
+var cspin = process.env.cspin;
 
+console.log("connecting using datapin=" + datapin + ", clockpin=" + clockpin + ", cspin=", cspin);
 var lc = new LedControl(datapin, clockpin, cspin, 4);
 
 function metresToMiles(metres) {
