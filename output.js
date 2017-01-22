@@ -200,7 +200,27 @@ var animSegments = [
         [0,1,0,0,0,0,0,0]
     ]
 
-]
+];
+
+function transpose(seg) {
+
+    var transposed = [];
+    for (var line = 0; line < seg[0].length; ++line) {
+        transposed.push([]);
+    }
+
+    for (var y = 0; y < seg.length; ++y) {
+        for (var x = 0; x < seg[y].length; ++x) {
+            transposed[x].push(seg[y][x]);
+        }
+    }
+
+    return transposed;
+}
+
+for (var s = 0; s < animSegments.length; ++s) {
+    animSegments[s] = transpose(animSegments[s]);
+}
 
 var Char = {
     Empty: 10,
@@ -341,7 +361,7 @@ var Controller = function(disp, index) {
                 anim = 0;
             }
 
-        }, 15 / 60);        
+        }, 5000 / 60);        
     }
 
     this.stopAnim = function() {
