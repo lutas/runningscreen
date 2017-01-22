@@ -13,15 +13,15 @@ var YearStats = function(year) {
         ],
         
         addStats: function(monthIndex, data) {
-            assert(monthIndex >= 1 && monthIndex <= 12, "Invalid month specified");
+            assert(monthIndex >= 0 && monthIndex < 12, "Invalid month specified");
 
-            this.months[monthIndex - 1] = data;
+            this.months[monthIndex] = data;
         },
 
         getMonthDistance: function(monthIndex) {
-            assert(monthIndex >= 1 && monthIndex <= 12, "Invalid month specified");
+            assert(monthIndex >= 0 && monthIndex < 12, "Invalid month specified");
 
-            var month = this.months[monthIndex - 1];
+            var month = this.months[monthIndex];
             if (month === null) {
                 return 0;
             }

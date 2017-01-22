@@ -26,9 +26,9 @@
   },
   "homepage": "https://github.com/lutas/runningscreen#readme",
   "dependencies": {
+    "max7219": "*",
     "moment": "^2.17.1",
-    "pi-spi": "^1.0.1",
-    "rpi-led-control": "^0.1.2",
+    "promise": "^7.1.1",
     "runtastic-js": "^1.0.1"
   },
   "devDependencies": {

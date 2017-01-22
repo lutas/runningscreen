@@ -1,6 +1,7 @@
 'use strict';
 
 var Runtastic = require('runtastic-js');
+var Promise = require('promise');
 
 function flatten(activities) {
     return activities.reduce(function(prev, val) {
@@ -39,6 +40,8 @@ module.exports = {
     },
 
     getMonthStats: function(month, year) {
+
+        month += 1;
         
         var from = year + '/' + month + '/01';
         var to = year + '/' + month + '/31';
@@ -88,7 +91,7 @@ module.exports = {
                 });
                 
                 Promise.all(activitiesReceived).then(function() {
-                    completedAccept(allDetails);
+                    completedAccept({ monthIndex: month - 1, details: allDetails });
                 }, function(err) {
                     completedReject(err);
                 });

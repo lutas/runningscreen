@@ -3,66 +3,81 @@
 
 console.log("app start");
 
+var refreshRate = process.env.refreshRate || (10 * 60000);
+console.log("refreshing every " + (refreshRate / 1000 / 60) + " minutes");
+
+var Promise = require('promise');
+
 //var config = require('./config.js');
-var display = require('./display.js');
+var display = require('./displaystats.js');
 
 var config = {
-    emailAddress: process.env.LoginEmail,
-    password: process.env.Password
+    emailAddress: process.env.LoginEmail || process.argv[2],
+    password: process.env.Password || process.argv[3]
 };
 
 console.log("Using account: " + config.emailAddress);
+display.init();
 
-    console.log("Clearing display");
-    display.clear();
-    display.init();
-    console.log("Initialised display");
+var runtasticManager = require('./running.js');
+var YearStats = require("./yearstats.js");
 
-    
-setInterval(function() {
-    display.init();
-    console.log("init display");
-}, 500);
+var prevYearValue = 2016; // deduce at some point
+var thisYearValue = 2017;
 
+function refresh() {
 
+    var prevYear = new YearStats(prevYearValue);
+    var thisYear = new YearStats(thisYearValue);
+    console.log("Attempting login");
 
-// var runtasticManager = require('./running.js');
+    runtasticManager.login(config).then(function() {
 
-// var YearStats = require("./yearstats.js");
+        display.setLoading(true);
 
-// var prevYearValue = 2016; // deduce at some point
-// var thisYearValue = 2017;
+        var currentMonth = new Date().getMonth();
 
-// var prevYear = new YearStats(prevYearValue);
-// var thisYear = new YearStats(thisYearValue);
-// console.log("Attempting login");
-// runtasticManager.login(config).then(function() {
+        var allMonths = [];
+        for (var monthIndex = 0; monthIndex < 12; ++monthIndex) {
 
-//     var allMonths = [];
-//     for (var monthIndex = 1; monthIndex <= 12; ++monthIndex) {
+            // get this month 
+            // + previous month for determining last run day
+            if (monthIndex != currentMonth && monthIndex != currentMonth - 1) {
+                continue;
+            }
 
-//         // previous year details - could cache these somewhere
-//         var monthPromise = runtasticManager.getMonthStats(monthIndex, prevYearValue);        
-//         monthPromise.then(function(data) {
-//             prevYear.addStats(monthIndex, data);
-//         }, display.error);
+            // previous year details - could cache these somewhere
+            var prevYearMonthPromise = runtasticManager.getMonthStats(monthIndex, prevYearValue);        
+            prevYearMonthPromise.then(function(data) {
+                console.log("Received data for prev year, month " + data.monthIndex + 1);
+                prevYear.addStats(data.monthIndex, data.details);
+            }, display.error);
 
-//         allMonths.push(monthPromise);
+            allMonths.push(prevYearMonthPromise);
 
-//         // current year
-//         var thisYearMonthPromise = runtasticManager.getMonthStats(monthIndex, thisYearValue);
-//         thisYearMonthPromise.then(function(data) {
-//             thisYear.addStats(monthIndex, data);
-//         }, display.error);
+            // current year
+            var thisYearMonthPromise = runtasticManager.getMonthStats(monthIndex, thisYearValue);
+            thisYearMonthPromise.then(function(data) {
+                console.log("Received data for this year, month " + data.monthIndex + 1);
+                thisYear.addStats(data.monthIndex, data.details);
+            }, display.error);
 
-//         allMonths.push(thisYearMonthPromise);
-//     }
+            allMonths.push(thisYearMonthPromise);
+        }
 
-//     Promise.all(allMonths).then(function() {
+        Promise.all(allMonths).then(function() {
 
-//         display.output(1, prevYear, thisYear);
+            display.setLoading(false);
 
-//     }, display.error);
+            console.log("Displaying data");
+            display.process(currentMonth, prevYear, thisYear);
 
-// }, display.error);
+        }, display.error);
+
+    }, display.error);
+}
+
+setInterval(refresh, refreshRate);
+refresh();
+
 
