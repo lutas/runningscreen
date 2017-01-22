@@ -1,12 +1,13 @@
 'use strict';
 
 var Runtastic = require('runtastic-js');
+var Promise = require('promise');
 
 function flatten(activities) {
     return activities.reduce(function(prev, val) {
         prev = prev || [];
         if (val) {
-            for (let index = 0; index < val.length; ++index) {
+            for (var index = 0; index < val.length; ++index) {
                 prev.push(val[index]);
             }
         }
@@ -39,9 +40,11 @@ module.exports = {
     },
 
     getMonthStats: function(month, year) {
+
+        month += 1;
         
-        const from = year + '/' + month + '/01';
-        const to = year + '/' + month + '/31';
+        var from = year + '/' + month + '/01';
+        var to = year + '/' + month + '/31';
 
         var api = this.api;
 
@@ -62,7 +65,7 @@ module.exports = {
 
                 flattened.forEach(function(activityId) {
 
-                    let activityReceivedPromise = new Promise(function(individualActivityAccept, individualActivityReject) {
+                    var activityReceivedPromise = new Promise(function(individualActivityAccept, individualActivityReject) {
 
                         api.fetchActivityDetails(activityId, false, function(err, activity) {
 
@@ -71,7 +74,7 @@ module.exports = {
                                 individualActivityAccept(false);
                             }
                             else {
-                                let attrib = activity.data.attributes;
+                                var attrib = activity.data.attributes;
                                 attrib.ext_data = undefined;
                                 attrib.fastest_paths = undefined;
                                 attrib.workout_data = undefined;
@@ -88,7 +91,7 @@ module.exports = {
                 });
                 
                 Promise.all(activitiesReceived).then(function() {
-                    completedAccept(allDetails);
+                    completedAccept({ monthIndex: month - 1, details: allDetails });
                 }, function(err) {
                     completedReject(err);
                 });
