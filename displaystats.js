@@ -84,10 +84,8 @@ module.exports = {
         else {
             displays.daysSinceLastRun.writeUnknown();
         }
-
-        // days remaining in the month
-
         
+        this.display.getController(3).playAnim();        
 
         // output to console             
         console.log("MilesDifference = " + diff + " miles");
