@@ -94,6 +94,9 @@ module.exports = {
                     completedAccept({ monthIndex: month - 1, details: allDetails });
                 }, function(err) {
                     completedReject(err);
+                })
+                .catch(function(reason) {
+                    throw reason;
                 });
             });            
         });

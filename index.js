@@ -25,7 +25,35 @@ var YearStats = require("./yearstats.js");
 var prevYearValue = 2016; // deduce at some point
 var thisYearValue = 2017;
 
+function isActiveTime() {
+
+    var today = new Date();
+
+    //active times
+    // mon - fri 6-10am, 7-10pm
+    // sat - sun 6am - 10pm
+
+    var hour = today.getHours();
+    var day = today.getDay();
+
+    // weekend always active
+    if (day == 0 || day == 6) {
+        return hour >= 6 && hour <= 22;
+    }
+    else {
+        return (hour >= 6 && hour <= 10) || (hour >= 19 && hour <= 22);
+    }
+
+}
+
 function refresh() {
+
+    if (!isActiveTime()) {
+        display.hide();
+        return;
+    }
+
+    display.show();    
 
     var prevYear = new YearStats(prevYearValue);
     var thisYear = new YearStats(thisYearValue);
@@ -51,7 +79,8 @@ function refresh() {
             prevYearMonthPromise.then(function(data) {
                 console.log("Received data for prev year, month " + data.monthIndex + 1);
                 prevYear.addStats(data.monthIndex, data.details);
-            }, display.error);
+            }, display.error)
+            .catch(display.error);
 
             allMonths.push(prevYearMonthPromise);
 
@@ -60,7 +89,8 @@ function refresh() {
             thisYearMonthPromise.then(function(data) {
                 console.log("Received data for this year, month " + data.monthIndex + 1);
                 thisYear.addStats(data.monthIndex, data.details);
-            }, display.error);
+            }, display.error)
+            .catch(display.error);
 
             allMonths.push(thisYearMonthPromise);
         }
@@ -72,9 +102,11 @@ function refresh() {
             console.log("Displaying data");
             display.process(currentMonth, prevYear, thisYear);
 
-        }, display.error);
+        }, display.error)
+        .catch(display.error);
 
-    }, display.error);
+    }, display.error)
+    .catch(display.error);
 }
 
 setInterval(refresh, refreshRate);

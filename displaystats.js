@@ -45,6 +45,22 @@ module.exports = {
         this.display.controllers.forEach(function(controller) {
             controller.writeUnknown();
         });
+
+        this.shown = true;
+    },
+
+    show: function() {
+        if (!this.shown) {
+            this.display.show();
+            this.shown = true;
+        }
+    },
+
+    hide: function() {
+        if (this.shown) {
+            this.display.hide();
+            this.shown = false;
+        }
     },
 
     setLoading: function(isLoading) {
@@ -99,7 +115,7 @@ module.exports = {
 
     error: function(err) {
         
-        console.log("Error: " + err.message);
+        console.log("Error: " + (err.message || err.description));
 
         // flash LED's?
         this.display.getController(0).writeError();
