@@ -38,10 +38,10 @@ function isActiveTime() {
 
     // weekend always active
     if (day == 0 || day == 6) {
-        return hour >= 6 && hour <= 22;
+        return hour >= 6 && hour < 22;
     }
     else {
-        return (hour >= 6 && hour <= 10) || (hour >= 19 && hour <= 22);
+        return (hour >= 6 && hour < 10) || (hour >= 19 && hour < 22);
     }
 
 }
