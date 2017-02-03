@@ -16,14 +16,16 @@ var config = {
     password: process.env.Password || process.argv[3]
 };
 
+var onlyDisplayDuringActiveTimes = process.env.onlyDisplayDuringActiveTimes;
+
 console.log("Using account: " + config.emailAddress);
 display.init();
 
 var runtasticManager = require('./running.js');
 var YearStats = require("./yearstats.js");
 
-var prevYearValue = 2016; // deduce at some point
-var thisYearValue = 2017;
+var thisYearValue = new Date().getFullYear();
+var prevYearValue = thisYearValue - 1;
 
 function isActiveTime() {
 
@@ -41,14 +43,14 @@ function isActiveTime() {
         return hour >= 6 && hour < 22;
     }
     else {
-        return (hour >= 6 && hour < 10) || (hour >= 19 && hour < 22);
+        return (hour >= 6 && hour < 10) || (hour >= 17 && hour < 22);
     }
 
 }
 
 function refresh() {
 
-    if (!isActiveTime()) {
+    if (onlyDisplayDuringActiveTimes && !isActiveTime()) {
         display.hide();
         return;
     }
