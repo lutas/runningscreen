@@ -3,6 +3,9 @@
 
 console.log("app start");
 
+var startTime = new Date();
+console.log("Starting at " + startTime.toString());
+
 var refreshRate = process.env.refreshRate || (10 * 60000);
 console.log("refreshing every " + (refreshRate / 1000 / 60) + " minutes");
 
@@ -24,7 +27,7 @@ display.init();
 var runtasticManager = require('./running.js');
 var YearStats = require("./yearstats.js");
 
-var thisYearValue = new Date().getFullYear();
+var thisYearValue = startTime.getFullYear();
 var prevYearValue = thisYearValue - 1;
 
 function isActiveTime() {
