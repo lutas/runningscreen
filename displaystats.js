@@ -46,6 +46,7 @@ module.exports = {
             controller.writeUnknown();
         });
 
+        this.shown = true;
         this.hide();
         this.show();
     },
