@@ -19,7 +19,8 @@ var config = {
     password: process.env.Password || process.argv[3]
 };
 
-var onlyDisplayDuringActiveTimes = process.env.onlyDisplayDuringActiveTimes;
+var onlyDisplayDuringActiveTimes = process.env.onlyDisplayDuringActiveTimes == "true";
+console.log("onlyDisplayDuringActiveTimes: " + onlyDisplayDuringActiveTimes);
 
 console.log("Using account: " + config.emailAddress);
 display.init();
