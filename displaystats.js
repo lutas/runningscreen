@@ -47,8 +47,6 @@ module.exports = {
         });
 
         this.shown = true;
-        this.hide();
-        this.show();
     },
 
     show: function() {

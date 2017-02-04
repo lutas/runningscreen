@@ -52,6 +52,13 @@ function isActiveTime() {
 
 }
 
+if (isActiveTime()) {
+    console.log("Started in active time");
+}
+else {
+    console.log("Started outside of active time");
+}
+
 function refresh() {
 
     if (onlyDisplayDuringActiveTimes && !isActiveTime()) {
