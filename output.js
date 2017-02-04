@@ -5,7 +5,7 @@ var MaxTest = function(port, numControllers) {
     this.active = 0;
 
     this.setActiveController = function(index) {
-        active = index;
+        this.active = index;
     }
 
     this.clearDisplay = function() {
@@ -13,18 +13,21 @@ var MaxTest = function(port, numControllers) {
     }
 
     this.setDigitSegments = function(line, array) {
-        console.log(this.active + " : {" + line + "} " + array)
+        //console.log(this.active + " : {" + line + "} " + array)
+        //console.log(this.active + " : setDigitSegments");
     }
 
-    this.setDecodeNone = function() { };
+    this.setDecodeNone = function() { console.log(this.active + " : setDecodeNone"); };
 
-    this.setScanLimit = function() {};
+    this.setScanLimit = function() { console.log(this.active + " : setScanLimit"); };
 
-    this.setDisplayIntensity = function() {};
+    this.setDisplayIntensity = function() { 
+        //console.log(this.active + " : setDisplayIntensity");
+     };
 
-    this.startup = function() {};
+    this.startup = function() { console.log(this.active + " : startup"); };
 
-    this.shutdown = function() {};
+    this.shutdown = function() { console.log(this.active + " : shutdown") };
 
 }
 

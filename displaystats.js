@@ -115,6 +115,7 @@ module.exports = {
 
     error: function(err) {
         
+        console.log("Error occurred");
         console.log("Error: " + (err.message || err.description));
 
         // flash LED's?

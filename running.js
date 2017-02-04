@@ -15,6 +15,33 @@ function flatten(activities) {
     });
 }
 
+function downloadActivity(api, activityId) {
+
+    var activityReceivedPromise = new Promise(function(individualActivityAccept, individualActivityReject) {
+
+        api.fetchActivityDetails(activityId, false, function(err, activity) {
+
+            if (err) {
+                // expected that some might fail to retrieve but this is fine
+                individualActivityAccept(false);
+            }
+            else {
+                var attrib = activity.data.attributes;
+                attrib.activityId = activityId;
+                attrib.ext_data = undefined;
+                attrib.fastest_paths = undefined;
+                attrib.workout_data = undefined;
+                attrib.zones = undefined;
+                attrib.current_training_plan_state = undefined;
+
+                individualActivityAccept(attrib);
+            }
+        });
+    });
+
+    return activityReceivedPromise;
+}
+
 module.exports = {
 
     api: null,
@@ -63,34 +90,22 @@ module.exports = {
                 var activitiesReceived = [];
                 var allDetails = [];
 
-                flattened.forEach(function(activityId) {
+                var initialPromise = new Promise(function(accept) { accept(); });
 
-                    var activityReceivedPromise = new Promise(function(individualActivityAccept, individualActivityReject) {
+                var allReceived = flattened.reduce(function(promise, activityId, index) {
+                    console.log("Retrieving activity " + activityId);
 
-                        api.fetchActivityDetails(activityId, false, function(err, activity) {
-
-                            if (err) {
-                                // expected that some might fail to retrieve but this is fine
-                                individualActivityAccept(false);
-                            }
-                            else {
-                                var attrib = activity.data.attributes;
-                                attrib.ext_data = undefined;
-                                attrib.fastest_paths = undefined;
-                                attrib.workout_data = undefined;
-                                attrib.zones = undefined;
-                                attrib.current_training_plan_state = undefined;
-
-                                allDetails.push(attrib);
-                                individualActivityAccept(activity);
-                            }
-                        });
+                    return promise.then(function(data) {
+                        if (data) {                                
+                            console.log("Received data for " + data.activityId)
+                            allDetails.push(data);
+                        }
+                        return downloadActivity(api, activityId);
                     });
+                }, initialPromise);
 
-                    activitiesReceived.push(activityReceivedPromise);
-                });
-                
-                Promise.all(activitiesReceived).then(function() {
+                // Promise.all(activitiesReceived).then(function() {
+                allReceived.then(function() {
                     completedAccept({ monthIndex: month - 1, details: allDetails });
                 }, function(err) {
                     completedReject(err);
