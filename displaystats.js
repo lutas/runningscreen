@@ -107,7 +107,7 @@ module.exports = {
             this.display.getController(3).playAnim();    
         }
         else {
-            this.display.getController(3).clear();
+            //this.display.getController(3).clear();
         }    
 
         // output to console             

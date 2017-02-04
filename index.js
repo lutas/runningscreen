@@ -88,7 +88,7 @@ function refresh() {
             // previous year details - could cache these somewhere
             var prevYearMonthPromise = runtasticManager.getMonthStats(monthIndex, prevYearValue);        
             prevYearMonthPromise.then(function(data) {
-                console.log("Received data for prev year, month " + data.monthIndex + 1);
+                console.log("Month: " + (data.monthIndex + 1) + "/" + prevYearValue + " - downloaded " + data.details.length + " activities");
                 prevYear.addStats(data.monthIndex, data.details);
             }, display.error)
             .catch(display.error);
@@ -98,7 +98,7 @@ function refresh() {
             // current year
             var thisYearMonthPromise = runtasticManager.getMonthStats(monthIndex, thisYearValue);
             thisYearMonthPromise.then(function(data) {
-                console.log("Received data for this year, month " + data.monthIndex + 1);
+                console.log("Month: " + (data.monthIndex + 1) + "/" + thisYearValue + " - downloaded " + data.details.length + " activities");
                 thisYear.addStats(data.monthIndex, data.details);
             }, display.error)
             .catch(display.error);
