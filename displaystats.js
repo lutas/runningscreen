@@ -21,7 +21,7 @@ function daysBetween( date1, date2 ) {
   var difference_ms = date2_ms - date1_ms;
     
   // Convert back to days and return
-  return Math.round(difference_ms/one_day); 
+  return Math.floor(difference_ms/one_day); 
 }
 
 var displays = {
@@ -47,6 +47,8 @@ module.exports = {
         });
 
         this.shown = true;
+        this.hide();
+        this.show();
     },
 
     show: function() {
@@ -101,7 +103,9 @@ module.exports = {
             displays.daysSinceLastRun.writeUnknown();
         }
         
-        this.display.getController(3).playAnim();        
+        if (process.env.playAnim == 'true') {
+            this.display.getController(3).playAnim();    
+        }    
 
         // output to console             
         console.log("MilesDifference = " + diff + " miles");

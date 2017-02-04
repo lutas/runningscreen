@@ -93,18 +93,14 @@ module.exports = {
                 var initialPromise = new Promise(function(accept) { accept(); });
 
                 var allReceived = flattened.reduce(function(promise, activityId, index) {
-                    console.log("Retrieving activity " + activityId);
-
                     return promise.then(function(data) {
                         if (data) {                                
-                            console.log("Received data for " + data.activityId)
                             allDetails.push(data);
                         }
                         return downloadActivity(api, activityId);
                     });
                 }, initialPromise);
 
-                // Promise.all(activitiesReceived).then(function() {
                 allReceived.then(function() {
                     completedAccept({ monthIndex: month - 1, details: allDetails });
                 }, function(err) {

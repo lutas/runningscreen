@@ -10,8 +10,6 @@ var refreshRate = process.env.refreshRate || (10 * 60000);
 console.log("refreshing every " + (refreshRate / 1000 / 60) + " minutes");
 
 var Promise = require('promise');
-
-//var config = require('./config.js');
 var display = require('./displaystats.js');
 
 var config = {
@@ -21,8 +19,8 @@ var config = {
 
 var onlyDisplayDuringActiveTimes = process.env.onlyDisplayDuringActiveTimes == "true";
 console.log("onlyDisplayDuringActiveTimes: " + onlyDisplayDuringActiveTimes);
-
 console.log("Using account: " + config.emailAddress);
+
 display.init();
 
 var runtasticManager = require('./running.js');
@@ -36,7 +34,7 @@ function isActiveTime() {
     var today = new Date();
 
     //active times
-    // mon - fri 6-10am, 7-10pm
+    // mon - fri 6-10am, 5-10pm
     // sat - sun 6am - 10pm
 
     var hour = today.getHours();
