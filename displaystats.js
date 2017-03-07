@@ -40,6 +40,7 @@ module.exports = {
         displays.totalMilesThisYearMonth = this.display.getController(0);
         displays.totalMilesPrevYearMonth = this.display.getController(1);
         displays.daysSinceLastRun = this.display.getController(2);
+        displays.avgMileage = this.display.getController(3);
 
         // set all to "unknown" to begin with
         this.display.controllers.forEach(function(controller) {
@@ -103,16 +104,20 @@ module.exports = {
             displays.daysSinceLastRun.writeUnknown();
         }
         
+        // calc an average miles per day for the current month
+        var totalDays = new Date().getDate();
+        var avg = metresToMiles(thisDistance / totalDays);
         if (process.env.playAnim == 'true') {
             this.display.getController(3).playAnim();    
         }
         else {
-            //this.display.getController(3).clear();
+            displays.avgMileage.writeNumber(avg);
         }    
 
         // output to console             
         console.log("MilesDifference = " + diff + " miles");
         console.log("Days since last run = " + daysSinceLastRun);
+        console.log("Average mileage per day current month = " + avg);
     },
 
     createGraph: function(prevYear, thisYear) {

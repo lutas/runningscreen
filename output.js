@@ -248,15 +248,22 @@ function getDigits(num) {
     // don't display left digit if it's 0
     if (leftDigit == 0) leftDigit = Char.Empty;
 
-    console.log("Set to " + num + " (" + leftDigit + ", " + rightDigit + ")");
+    // deal with decimal points
+    var showDecimalPoint = false;    
+    if (num < 10) {
+        showDecimalPoint = true;
+
+        leftDigit = rightDigit;
+
+        // get the first decimal number
+        rightDigit = Math.floor((num * 10) % 10);
+    }
 
     // rotate everything 90 degrees
     // lines on the display = vertical of our font
-    function addLines(lines, digit) {
+    function addLines(lines, digit, spaceAtEnd) {
 
         var segment = font[digit];
-        //spacing for left digit
-        lines.push([0,0,0,0,0,0,0,0]);
         
         for (var x = 0; x < 3; ++x) {
             var line = [];
@@ -278,8 +285,14 @@ function getDigits(num) {
 
     var lines = [];
 
-    addLines(lines, leftDigit);
-    addLines(lines, rightDigit);
+    addLines(lines, leftDigit, true);
+    lines.push([0,0,0,0,0,0,0,0]);
+    if (showDecimalPoint) {
+        lines.push([0,0,0,0,0,0,0,1]);
+    } else {
+        lines.push([0,0,0,0,0,0,0,0]);
+    }
+    addLines(lines, rightDigit, false);
 
     return lines;
 }
