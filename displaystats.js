@@ -86,8 +86,8 @@ module.exports = {
         var prevDistance = prevYear.getMonthDistance(monthIndex);
         var thisDistance = thisYear.getMonthDistance(monthIndex);
 
-        displays.totalMilesThisYearMonth.writeNumber(metresToMiles(thisDistance));
-        displays.totalMilesPrevYearMonth.writeNumber(metresToMiles(prevDistance));
+        displays.totalMilesThisYearMonth.writeDecimal(metresToMiles(thisDistance));
+        displays.totalMilesPrevYearMonth.writeDecimal(metresToMiles(prevDistance));
 
         var diff = metresToMiles(prevDistance - thisDistance);   
 
@@ -111,7 +111,7 @@ module.exports = {
             this.display.getController(3).playAnim();    
         }
         else {
-            displays.avgMileage.writeNumber(avg);
+            displays.avgMileage.writeDecimal(avg);
         }    
 
         // output to console             

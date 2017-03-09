@@ -55,14 +55,14 @@ var font = [
         [1,1,1]
     ],
     [
-        [1,1,1],
-        [0,0,1],
         [1,1,0],
+        [0,0,1],
+        [1,1,1],
         [1,0,0],
-        [1,1,1]
+        [0,1,1]
     ],
     [
-        [1,1,1],
+        [1,1,0],
         [0,0,1],
         [1,1,1],
         [0,0,1],
@@ -85,9 +85,9 @@ var font = [
     [
         [0,1,1],
         [1,0,0],
-        [1,1,1],
+        [1,1,0],
         [1,0,1],
-        [1,1,0]
+        [0,1,0]
     ],
     [
         [1,1,1],
@@ -104,7 +104,7 @@ var font = [
         [1,1,0]
     ],
     [
-        [0,1,1],
+        [0,1,0],
         [1,0,1],
         [1,1,1],
         [0,0,1],
@@ -235,7 +235,7 @@ var Char = {
     Error: 13
 };
 
-function getDigits(num) {
+function getDigits(num, allowDecimalPoint) {
 
     // deduce 2 digit number
     if (num > 99) { 
@@ -250,7 +250,7 @@ function getDigits(num) {
 
     // deal with decimal points
     var showDecimalPoint = false;    
-    if (num < 10) {
+    if (allowDecimalPoint && num < 10) {
         showDecimalPoint = true;
 
         leftDigit = rightDigit;
@@ -286,7 +286,6 @@ function getDigits(num) {
     var lines = [];
 
     addLines(lines, leftDigit, true);
-    lines.push([0,0,0,0,0,0,0,0]);
     if (showDecimalPoint) {
         var middleLine = [];
         for (var i = 1; i <= 8; ++i) {
@@ -301,6 +300,7 @@ function getDigits(num) {
     } else {
         lines.push([0,0,0,0,0,0,0,0]);
     }
+    lines.push([0,0,0,0,0,0,0,0]);
     addLines(lines, rightDigit, false);
 
     return lines;
@@ -333,6 +333,10 @@ var Controller = function(disp, index) {
 
     this.writeNumber = function(num) {
         this.write(getDigits(num));
+    }
+
+    this.writeDecimal = function(num) {
+        this.write(getDigits(num, true));
     }
 
     this.writeTick = function() {
