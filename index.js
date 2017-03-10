@@ -112,6 +112,8 @@ function refresh() {
 
             console.log("Displaying data");
             display.process(currentMonth, prevYear, thisYear);
+            
+            runtasticManager.logout();
 
         }, display.error)
         .catch(display.error);

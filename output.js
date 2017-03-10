@@ -31,8 +31,8 @@ var MaxTest = function(port, numControllers) {
 
 }
 
-var MAX7219 = require('max7219');
-//var MAX7219 = MaxTest;
+//var MAX7219 = require('max7219');
+var MAX7219 = MaxTest;
 
 var numControllers = 4;
 var lineHeight = process.env.lineHeight || 2;
@@ -55,18 +55,18 @@ var font = [
         [1,1,1]
     ],
     [
-        [1,1,0],
+        [1,1,1],
         [0,0,1],
         [1,1,1],
         [1,0,0],
         [0,1,1]
     ],
     [
-        [1,1,0],
+        [1,1,1],
         [0,0,1],
         [1,1,1],
         [0,0,1],
-        [1,1,0]
+        [1,1,1]
     ],
     [
         [1,0,1],
@@ -87,7 +87,7 @@ var font = [
         [1,0,0],
         [1,1,0],
         [1,0,1],
-        [0,1,0]
+        [0,1,1]
     ],
     [
         [1,1,1],
@@ -101,14 +101,14 @@ var font = [
         [1,0,1],
         [1,1,1],
         [1,0,1],
-        [1,1,0]
+        [0,1,1]
     ],
     [
-        [0,1,0],
+        [0,1,1],
         [1,0,1],
         [1,1,1],
         [0,0,1],
-        [1,1,0]
+        [0,0,1]
     ],
     // empty
     [
@@ -208,6 +208,16 @@ var animSegments = [
 
 ];
 
+var emptyLine = [0,0,0,0,0,0,0,0];
+var decimalLine = [];
+for (var i = 1; i <= 8; ++i) {
+    if (i == lineHeight + 5) {
+        decimalLine.push(1);
+    } else {
+        decimalLine.push(0);
+    }
+}
+
 function transpose(seg) {
 
     var transposed = [];
@@ -223,6 +233,24 @@ function transpose(seg) {
 
     return transposed;
 }
+
+// used to determine if the bottom left pixel is used by the font
+// this allows us to best position the decimal point
+function notUsingBottomLeftPixel(num) {
+    switch (num) {
+        case 0:
+        case 2:
+        case 4:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+            return true;
+    }
+
+    return false;
+}
+    
 
 for (var s = 0; s < animSegments.length; ++s) {
     animSegments[s] = transpose(animSegments[s]);
@@ -284,23 +312,22 @@ function getDigits(num, allowDecimalPoint) {
     }
 
     var lines = [];
-
     addLines(lines, leftDigit, true);
+    
     if (showDecimalPoint) {
-        var middleLine = [];
-        for (var i = 1; i <= 8; ++i) {
-            if (i == lineHeight + 5) {
-                middleLine.push(1);
-            } else {
-                middleLine.push(0);
-            }
-        }
-
-        lines.push(middleLine);
-    } else {
-        lines.push([0,0,0,0,0,0,0,0]);
+         if (notUsingBottomLeftPixel(rightDigit)) {
+            lines.push(emptyLine);
+            lines.push(decimalLine);
+         } else {             
+            lines.push(decimalLine);
+            lines.push(emptyLine);
+         }
     }
-    lines.push([0,0,0,0,0,0,0,0]);
+    else {
+        lines.push(emptyLine);
+        lines.push(emptyLine);
+    }   
+
     addLines(lines, rightDigit, false);
 
     return lines;

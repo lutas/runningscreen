@@ -66,6 +66,10 @@ module.exports = {
         return loginPromise;
     },
 
+    logout: function() {
+        this.api.logout();
+    },
+
     getMonthStats: function(month, year) {
 
         month += 1;
