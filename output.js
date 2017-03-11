@@ -31,8 +31,8 @@ var MaxTest = function(port, numControllers) {
 
 }
 
-//var MAX7219 = require('max7219');
-var MAX7219 = MaxTest;
+var MAX7219 = require('max7219');
+//var MAX7219 = MaxTest;
 
 var numControllers = 4;
 var lineHeight = process.env.lineHeight || 2;
