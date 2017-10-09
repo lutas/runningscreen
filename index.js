@@ -64,6 +64,7 @@ function refresh() {
         return;
     }
 
+    display.hide();
     display.show();    
 
     var prevYear = new YearStats(prevYearValue);

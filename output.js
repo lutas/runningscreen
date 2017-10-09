@@ -284,7 +284,7 @@ function getDigits(num, allowDecimalPoint) {
         leftDigit = rightDigit;
 
         // get the first decimal number
-        rightDigit = Math.floor((num * 10) % 10);
+        rightDigit = (Math.round(num * 10)) % 10;
     }
 
     // rotate everything 90 degrees
@@ -377,6 +377,9 @@ var Controller = function(disp, index) {
     this.blink = function(time) {
         var fadeUp = true;
         var self = this;
+        if (this.blinkInterval) {
+            this.blinkOff();
+        }
         this.blinkInterval = setInterval(function() {
             if (fadeUp) {
                 self.blinkValue++;
@@ -400,6 +403,7 @@ var Controller = function(disp, index) {
 
     this.blinkOff = function() {
         clearInterval(this.blinkInterval);
+        this.blinkInterval = null;
 
         disp.setActiveController(index);
         disp.setDisplayIntensity(defaultBrightness);
@@ -451,15 +455,16 @@ module.exports = function() {
             disp.setDecodeNone();
             disp.setScanLimit(8);
             disp.startup();
-        }        
+        }
     }
 
     this.hide = function() {
         for (var c = 0; c < numControllers; ++c) {
 
             disp.setActiveController(c);
+            disp.clearDisplay();
             disp.shutdown();
-        }
+        }        
     }
 
     this.getController = function(index) {
