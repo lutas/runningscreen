@@ -284,9 +284,9 @@ function getDigits(num, allowDecimalPoint) {
         leftDigit = rightDigit;
 
         // get the first decimal number
-        rightDigit = (Math.round(num * 10)) % 10;
+        rightDigit = (Math.floor(num * 10)) % 10;
     }
-
+    
     // rotate everything 90 degrees
     // lines on the display = vertical of our font
     function addLines(lines, digit, spaceAtEnd) {
