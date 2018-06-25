@@ -29,7 +29,8 @@
     "max7219": "*",
     "moment": "^2.17.1",
     "promise": "^7.1.1",
-    "runtastic-js": "^1.0.1"
+    "runtastic-js": "^1.0.1",
+    "strava-v3": "^1.14.0"
   },
   "devDependencies": {
     "node-gyp": "^3.5.0"

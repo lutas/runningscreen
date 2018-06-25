@@ -23,7 +23,15 @@ console.log("Using account: " + config.emailAddress);
 
 display.init();
 
-var runtasticManager = require('./running.js');
+var runManager;
+if (process.env.UseStrava == "true") {
+    console.log('Using strava');
+    runManager = require('./strava');
+}
+else {
+    console.log('Using runtastic');
+    runManager = require('./runtastic');
+}
 var YearStats = require("./yearstats.js");
 
 var thisYearValue = startTime.getFullYear();
@@ -71,7 +79,7 @@ function refresh() {
     var thisYear = new YearStats(thisYearValue);
     console.log("Attempting login");
 
-    runtasticManager.login(config).then(function() {
+    runManager.login(config).then(function() {
 
         display.setLoading(true);
 
@@ -87,7 +95,7 @@ function refresh() {
             }
 
             // previous year details - could cache these somewhere
-            var prevYearMonthPromise = runtasticManager.getMonthStats(monthIndex, prevYearValue);        
+            var prevYearMonthPromise = runManager.getMonthStats(monthIndex, prevYearValue);        
             prevYearMonthPromise.then(function(data) {
                 console.log("Month: " + (data.monthIndex + 1) + "/" + prevYearValue + " - downloaded " + data.details.length + " activities");
                 prevYear.addStats(data.monthIndex, data.details);
@@ -97,7 +105,7 @@ function refresh() {
             allMonths.push(prevYearMonthPromise);
 
             // current year
-            var thisYearMonthPromise = runtasticManager.getMonthStats(monthIndex, thisYearValue);
+            var thisYearMonthPromise = runManager.getMonthStats(monthIndex, thisYearValue);
             thisYearMonthPromise.then(function(data) {
                 console.log("Month: " + (data.monthIndex + 1) + "/" + thisYearValue + " - downloaded " + data.details.length + " activities");
                 thisYear.addStats(data.monthIndex, data.details);
@@ -114,7 +122,7 @@ function refresh() {
             console.log("Displaying data");
             display.process(currentMonth, prevYear, thisYear);
             
-            runtasticManager.logout();
+            runManager.logout();
 
         }, display.error)
         .catch(display.error);
