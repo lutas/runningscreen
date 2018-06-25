@@ -1,5 +1,5 @@
 
-FROM resin/%%RESIN_MACHINE_NAME%%-node:0.10.22-onbuild
+FROM resin/%%RESIN_MACHINE_NAME%%-node:6.10-onbuild
 
 RUN DEBIAN_FRONTEND=noninteractive JOBS=MAX npm install --unsafe-perm
 
