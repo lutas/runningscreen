@@ -2,7 +2,7 @@
 FROM resin/%%RESIN_MACHINE_NAME%%-node:0.10.22-onbuild
 
 RUN apt-get install nodejs-legacy npm
-RUN DEBIAN_FRONTEND=noninteractive JOBS=MAX npm install --verbose --unsafe-perm --build-from-source
+RUN DEBIAN_FRONTEND=noninteractive JOBS=MAX npm install -ddd --unsafe-perm --build-from-source
 
 COPY . /usr/src/app
 
