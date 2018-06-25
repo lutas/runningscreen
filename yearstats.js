@@ -1,5 +1,6 @@
 'use strict';
 var assert = require('assert');
+const fs = require('fs');
 
 var YearStats = function(year) {
 
@@ -58,6 +59,26 @@ var YearStats = function(year) {
             }
 
             return null;
+        },
+
+        save: function(directory) {
+
+            for (var monthIndex = 11; monthIndex >= 0; --monthIndex) {
+                
+                var month = this.months[monthIndex];
+                if (month !== null && month.length > 0) {
+                    
+                    const folder = directory + '/' + (monthIndex + 1);
+                    fs.mkdir(folder);
+
+                    for (var activity = 0; activity < month.length; ++activity) {
+
+                        var run = month[activity];
+
+                        fs.writeFile(folder + '/' + (activity + 1) + '.json', JSON.stringify(run));
+                    }
+                }
+            }
         }
     };
 }
