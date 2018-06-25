@@ -4,7 +4,7 @@ ENV version 1.0
 
 RUN npm config set registry http://registry.npmjs.org/
 RUN npm set strict-ssl false
-RUN DEBIAN_FRONTEND=noninteractive JOBS=MAX npm install -ddd --unsafe-perm || cat /usr/src/app/npm-debug.log
+RUN npm install -ddd --unsafe-perm || cat /usr/src/app/npm-debug.log
 
 COPY . /usr/src/app
 
