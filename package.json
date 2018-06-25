@@ -27,9 +27,10 @@
   "homepage": "https://github.com/lutas/runningscreen#readme",
   "dependencies": {
     "max7219": "*",
-    "moment": "^2.17.1",
-    "promise": "^7.1.1",
-    "runtastic-js": "^1.0.1"
+    "moment": "^2.22.2",
+    "promise": "*",
+    "runtastic-js": "*",
+    "strava-v3": "^1.14.0"
   },
   "devDependencies": {
     "node-gyp": "^3.7.0"
