@@ -1,2 +1,12 @@
 
 FROM resin/%%RESIN_MACHINE_NAME%%-node:0.10.22-onbuild
+ENV version 1.0
+
+RUN npm config set registry http://registry.npmjs.org/
+RUN npm set strict-ssl false
+RUN DEBIAN_FRONTEND=noninteractive JOBS=MAX npm install -ddd --unsafe-perm || cat /usr/src/app/npm-debug.log
+
+COPY . /usr/src/app
+
+#RUN ln -s /usr/src/app /app
+CMD ["node", "index.js"]
