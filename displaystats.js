@@ -89,7 +89,8 @@ module.exports = {
         displays.totalMilesThisYearMonth.writeDecimal(metresToMiles(thisDistance));
         displays.totalMilesPrevYearMonth.writeDecimal(metresToMiles(prevDistance));
 
-        var diff = metresToMiles(prevDistance - thisDistance);   
+        console.log('Last year', metresToMiles(prevDistance), 'miles');
+        console.log('This year', metresToMiles(thisDistance), 'miles');
 
         // days since last run
         var lastRun = thisYear.getLastRun();
@@ -115,6 +116,8 @@ module.exports = {
         }    
 
         // output to console             
+        
+        var diff = metresToMiles(thisDistance - prevDistance);   
         console.log("MilesDifference = " + diff + " miles");
         console.log("Days since last run = " + daysSinceLastRun);
         console.log("Average mileage per day current month = " + avg);
