@@ -33,6 +33,6 @@
     "strava-v3": "^1.14.0"
   },
   "devDependencies": {
-    "node-gyp": "^3.5.0"
+    "node-gyp": "^3.7.0"
   }
 }
