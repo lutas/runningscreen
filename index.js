@@ -24,13 +24,13 @@ console.log("Using account: " + config.emailAddress);
 display.init();
 
 var runManager;
-if (process.env.UseStrava == "true") {
-    console.log('Using strava');
-    runManager = require('./strava');
-}
-else {
+if (process.env.runMode == "runtastic") {
     console.log('Using runtastic');
     runManager = require('./runtastic');
+}
+else {
+    console.log('Using strava');
+    runManager = require('./strava');
 }
 var YearStats = require("./yearstats.js");
 
