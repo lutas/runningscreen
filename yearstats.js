@@ -1,6 +1,6 @@
 'use strict';
 var assert = require('assert');
-const fs = require('fs');
+var fs = require('fs');
 
 var YearStats = function(year) {
 
@@ -68,7 +68,7 @@ var YearStats = function(year) {
                 var month = this.months[monthIndex];
                 if (month !== null && month.length > 0) {
                     
-                    const folder = directory + '/' + (monthIndex + 1);
+                    var folder = directory + '/' + (monthIndex + 1);
                     fs.mkdir(folder);
 
                     for (var activity = 0; activity < month.length; ++activity) {
