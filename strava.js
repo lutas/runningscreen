@@ -24,7 +24,7 @@ module.exports = {
     getMonthStats: function(month, year) {
 
         var from = new Date(year, month, 1).getTime() / 1000;
-        var to = new Date(year, month + 1, 0).getTime() / 1000;
+        var to = new Date(year, month + 1, 1, -1).getTime() / 1000;
 
         var completedPromise = new Promise(function(completedAccept, completedReject) {
 
